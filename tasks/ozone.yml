@@ -1,0 +1,65 @@
+---
+- name: "Download ozone binaries from Artifactory"
+  become: true
+  get_url:
+    url: "{{ ozone__distr_url }}"
+    dest: "/tmp/{{ ozone__distr }}.tar.gz"
+
+- name: "Unarchive ozone binaries"
+  become: true
+  unarchive:
+    src: "/tmp/{{ ozone_distr }}.tar.gz"
+    dest: "/opt/"
+    owner: "{{ ozone__user }}"
+    group: "{{ ozone_group }}"
+    remote_src: true
+
+- name: Create a symbolic link
+  become: true
+  file:
+    src: "/opt/{{ vanilla__ozone_distr }}"
+    dest: "{{ vanilla__ozone_path }}"
+    owner: "{{ vanilla__hadoop_user }}"
+    group: "{{ vanilla__hadoop_group }}"
+    state: link
+    force: yes
+
+- name: Create dirs
+  become: true
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+    owner: "{{ vanilla__hadoop_user }}"
+    group: "{{ vanilla__hadoop_group }}"
+  with_items:
+    - "{{ vanilla__ozone_meta_path }}"
+    - "{{ vanilla__ozone_om_meta_path }}"
+    - "{{ vanilla__ozone_scm_meta_path }}"
+    - "{{ vanilla__ozone_ratis_meta_path }}"
+
+- name: Remove src binaries
+  become: true
+  file:
+    path: "/tmp/{{ vanilla__ozone_distr }}.tar.gz"
+    state: absent
+
+- name: Copy profile
+  become: true
+  template:
+    src: ozone.sh.j2
+    dest: /etc/profile.d/ozone.sh
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Copy configs
+  become: true
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ vanilla__hadoop_user }}"
+    group: "{{ vanilla__hadoop_group }}"
+    mode: 0644
+  with_items:
+    - { src: "ozone-site.xml.j2", dest: "{{ vanilla__ozone_path }}/etc/hadoop/ozone-site.xml"}
