@@ -2,8 +2,10 @@
 
 ozone__artifactory_url: "http://rep.msk.ru/artifactory/downloads.apache.org/ozone"
 ozone__version: "1.2.1"
-ozone__distr: "ozone-{{ ozone_version }}"
+ozone__distr: "ozone-{{ ozone__version }}"
 ozone__distr_url: "{{ ozone__artifactory_url }}/{{ ozone__version }}/{{ ozone__distr }}.tar.gz"
+ozone__user: "ozone"
+ozone__group: "ozone"
 ozone__path: "/usr/lib/ozone"
 ozone__init: false
 ozone__meta_path: "/data/ozone/meta"
