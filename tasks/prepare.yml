@@ -4,7 +4,7 @@
   become: true
   group:
     name: "{{ ozone__group }}"
-    state: prese
+    state: present
 
 
 - name: Create user for Ozone
