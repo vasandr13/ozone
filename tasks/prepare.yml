@@ -1,0 +1,17 @@
+---
+
+- name: Create group for Ozone user
+  become: true
+  group:
+    name: "{{ ozone__group }}"
+    state: prese
+
+
+- name: Create user for Ozone
+  become: true
+  user:
+    name: "{{ ozone__user }}"
+    group: "{{ ozone__group }}"
+    state: present
+
+
