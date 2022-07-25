@@ -1,1 +1,16 @@
 ---
+
+ozone__artifactory_url: "http://rep.msk.ru/artifactory/downloads.apache.org/ozone"
+ozone__version: "1.2.1"
+ozone__distr: "ozone-{{ ozone_version }}"
+ozone__distr_url: "{{ ozone__artifactory_url }}/{{ ozone__version }}/{{ ozone__distr }}.tar.gz"
+ozone__path: "/usr/lib/ozone"
+ozone__init: false
+ozone__meta_path: "/data/ozone/meta"
+ozone__om_meta_path: "/data/ozone/om/meta"
+ozone__scm_meta_path: "/data/ozone/scm/meta"
+ozone__ratis_meta_path: "/data/ozone/ratis/meta"
+ozone__instead_hdfs_use_ofs: false
+ozone__instead_hdfs_use_o3fs: false
+ozone__o3fs_default_volume: "volume"
+ozone__o3fs_default_bucket: "bucket"
